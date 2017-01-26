@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -141,6 +142,8 @@ namespace BlizzPing
                 pingDataCollection[0].DataOut = $"Average Travel Time: {MS_Values.Average().ToString("N0")} MS";
             });
         }
+
+        private void GoToLink_Click(object sender, RoutedEventArgs e) => Process.Start(((Button)sender).Tag.ToString());
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {

@@ -12,9 +12,17 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:local="clr-namespace:BlizzPing"
         mc:Ignorable="d"
         Title="BlizzPing" Height="500" Width="800" ResizeMode="CanMinimize">
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands Margin="0" Padding="0">
+            <StackPanel Name="menuHolder" Orientation="Horizontal" Margin="0">
+                <Button Padding="2" Margin="0,0,3,0" Content="BlizzTrack" Click="GoToLink_Click" Tag="https://blizztrack.com" />
+                <Button Padding="2" Content="Source Code" Click="GoToLink_Click" Tag="https://github.com/Toyz/blizzping" />
+            </StackPanel>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="230*"/>
