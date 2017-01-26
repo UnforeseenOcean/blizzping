@@ -17,6 +17,28 @@
     }
   },
   {
+    "name": "Diablo 3",
+    "has_realms": false,
+    "ips": {
+      "us": [
+        "24.105.30.3"
+      ],
+      "eu": [
+        "5.42.168.6",
+        "5.42.184.5"
+      ]
+    }
+  },
+  {
+    "name": "StarCraft 2",
+    "has_realms": false,
+    "ips": {
+      "us": [
+        "24.105.30.3"
+      ]
+    }
+  },
+  {
     "name": "Heros of the Storm",
     "has_realms": false,
     "ips": {
