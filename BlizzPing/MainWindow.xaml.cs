@@ -18,6 +18,7 @@ namespace BlizzPing
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        string org_title;
         List<int> MS_Values = new List<int>();
 
         ObservableCollection<PingData> pingDataCollection = new ObservableCollection<PingData>();
@@ -26,6 +27,7 @@ namespace BlizzPing
         public MainWindow()
         {
             InitializeComponent();
+            org_title = Title;
             pingData.ItemsSource = pingDataCollection;
 
             dynamic jsonObj = JsonConvert.DeserializeObject(File.ReadAllText("ips.json"));
@@ -143,6 +145,7 @@ namespace BlizzPing
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             ((Button)sender).IsEnabled = false;
+            Title = $"{org_title} - {((ComboBoxItem)AllGames.SelectedItem).Tag.ToString()} - Running";
 
             WaitingBox.Visibility = Visibility.Collapsed;
             pingData.Visibility = Visibility.Visible;
@@ -157,6 +160,7 @@ namespace BlizzPing
             }
 
             ((Button)sender).IsEnabled = true;
+            Title = $"{org_title} - {((ComboBoxItem)AllGames.SelectedItem).Tag.ToString()} - Finished";
         }
     }
 }
