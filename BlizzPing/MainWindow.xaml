@@ -39,7 +39,7 @@
                 <Label Content="Select Game" VerticalAlignment="Top" Margin="10,5,10,0"/>
                 <ComboBox x:Name="AllGames"  VerticalAlignment="Top" SelectionChanged="AllGames_SelectionChanged" Margin="10,31,10,0" />
                 <ComboBox x:Name="SelectRegion" VerticalAlignment="Top" Margin="10,97,10,0" />
-                <Label Content="Select Region" VerticalAlignment="Top" HorizontalAlignment="Right" Width="211" Margin="0,71,10,0"/>
+                <Label Content="Select Region" VerticalAlignment="Top" HorizontalAlignment="Right" Width="223" Margin="0,71,10,0"/>
                 <ComboBox x:Name="SelectRealm" VerticalAlignment="Top" Margin="10,161,10,0"/>
                 <Label Content="Select Realm" VerticalAlignment="Top" Margin="10,135,10,0" />
                 <Button Content="Test Ping" Margin="10,196,10,10" Click="Button_Click" />

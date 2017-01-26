@@ -14,7 +14,7 @@ namespace BlizzPing
             set
             {
                 _serverRegion = value;
-                NotifyPropertyChanged("ServerRegion");
+                NotifyPropertyChanged(nameof(ServerRegion));
             }
         }
 
@@ -28,10 +28,22 @@ namespace BlizzPing
             set
             {
                 _dataOut = value;
-                NotifyPropertyChanged("DataOut");
+                NotifyPropertyChanged(nameof(DataOut));
             }
         }
-        public SolidColorBrush BackGroundBrush { get; set; }
+
+        private SolidColorBrush _backGroundBrush;
+        public SolidColorBrush BackGroundBrush {
+            get
+            {
+                return _backGroundBrush;
+            }
+            set
+            {
+                _backGroundBrush = value;
+                NotifyPropertyChanged(nameof(BackGroundBrush));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

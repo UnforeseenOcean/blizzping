@@ -19,6 +19,8 @@ namespace BlizzPing
         public static decimal Average(this List<int> list)
         {
             int sum = list.Sum();
+
+            if (sum <= 0) return 0;
             decimal result = (decimal)sum / list.Count;
             return result;
         }

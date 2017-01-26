@@ -75,7 +75,6 @@ namespace BlizzPing
         public void PingServer(string ip, string region)
         {
             MS_Values.Clear();
-            // Ping's the local machine.
             Ping pingSender = new Ping();
             IPAddress address = IPAddress.Parse(ip);
 
@@ -85,9 +84,9 @@ namespace BlizzPing
                 {
                     ServerRegion = region,
                     DataOut = $"Average Travel Time: N/A MS",
-                    BackGroundBrush = new System.Windows.Media.SolidColorBrush()
+                    BackGroundBrush = new SolidColorBrush()
                     {
-                        Color = Color.FromRgb()
+                        Color = (Color)ColorConverter.ConvertFromString("#FFBBDEFB")
                     }
                 });
             });
@@ -95,22 +94,44 @@ namespace BlizzPing
             for (var i = 0; i < 10; i++)
             {
                 PingData ping = new PingData() { ServerRegion = region };
+                Dispatcher.Invoke(() =>
+                {
+                   ping.BackGroundBrush = new SolidColorBrush()
+                   {
+                       Color = (Color)ColorConverter.ConvertFromString("#FFFFFFFF")
+                   };
+                    ping.DataOut = "Checking ping please wait...";
+                    pingDataCollection.Add(ping);
+                });
+
                 PingReply reply = pingSender.Send(address);
                 if (reply.Status == IPStatus.Success)
                 {
-                    ping.DataOut = $"Travel time {reply.RoundtripTime} MS";
                     MS_Values.Add((int)reply.RoundtripTime);
+
+                    Dispatcher.Invoke(() => {
+                        pingDataCollection[pingDataCollection.Count - 1].DataOut = $"Travel time {reply.RoundtripTime} MS";
+
+                        if(reply.RoundtripTime > 250)
+                        {
+                            pingDataCollection[pingDataCollection.Count - 1].BackGroundBrush = new SolidColorBrush()
+                            {
+                                Color = (Color)ColorConverter.ConvertFromString("#FFFFF59D")
+                            };
+                        }
+                    });
                 }
                 else
                 {
                     string message = "Error time out reached while trying to connect";
-                    ping.DataOut = message;
+                    Dispatcher.Invoke(() => {
+                        pingDataCollection[pingDataCollection.Count - 1].DataOut = message;
+                        pingDataCollection[pingDataCollection.Count - 1].BackGroundBrush = new SolidColorBrush()
+                        {
+                            Color = (Color)ColorConverter.ConvertFromString("#FFEF9A9A")
+                        };
+                    });
                 }
-
-                Dispatcher.Invoke(() =>
-               {
-                   pingDataCollection.Add(ping);
-               });
             }
 
             Dispatcher.Invoke(() =>
