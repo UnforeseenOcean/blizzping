@@ -58,6 +58,8 @@ namespace BlizzPing
 
         private void AllGames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SelectRegion.Items.Clear();
+
             string str = ((ComboBoxItem)AllGames.SelectedItem).Tag.ToString();
 
             var ips_regions = all_Games[str];
