@@ -1,34 +1,32 @@
-﻿using Newtonsoft.Json;
+﻿using MahApps.Metro.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BlizzPing
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
+        List<int> MS_Values = new List<int>();
+
+        ObservableCollection<PingData> pingDataCollection = new ObservableCollection<PingData>();
         Dictionary<string, Dictionary<string, List<string>>> all_Games = new Dictionary<string, Dictionary<string, List<string>>>();
 
         public MainWindow()
         {
             InitializeComponent();
+            pingData.ItemsSource = pingDataCollection;
 
             dynamic jsonObj = JsonConvert.DeserializeObject(File.ReadAllText("ips.json"));
 
@@ -45,9 +43,12 @@ namespace BlizzPing
                 });
 
 
-                foreach (var region in ips)
+                if (obj.has_realms != null && !(bool)obj.has_realms)
                 {
-                    all_Games[(string)obj.name][region.Key] = region.Value;
+                    foreach (var region in ips)
+                    {
+                        all_Games[(string)obj.name][region.Key] = region.Value;
+                    }
                 }
             }
         }
@@ -71,35 +72,70 @@ namespace BlizzPing
             }
         }
 
-        private async void SelectRegion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void PingServer(string ip, string region)
         {
-            string str = ((ComboBoxItem)SelectRegion.SelectedItem).Tag.ToString();
-
-            await Task.Run(() => PingServer(str));
-        }
-
-        public PingReply PingServer(string ip)
-        {
+            MS_Values.Clear();
             // Ping's the local machine.
             Ping pingSender = new Ping();
             IPAddress address = IPAddress.Parse(ip);
-            PingReply reply = pingSender.Send(address);
 
-            if (reply.Status == IPStatus.Success)
+            Dispatcher.Invoke(() =>
             {
-                Console.WriteLine("Address: {0}", reply.Address.ToString());
-                Console.WriteLine("RoundTrip time: {0}", reply.RoundtripTime);
-                Console.WriteLine("Time to live: {0}", reply.Options.Ttl);
-                Console.WriteLine("Don't fragment: {0}", reply.Options.DontFragment);
-                Console.WriteLine("Buffer size: {0}", reply.Buffer.Length);
-            }
-            else
+                pingDataCollection.Insert(0, new PingData()
+                {
+                    ServerRegion = region,
+                    DataOut = $"Average Travel Time: N/A MS",
+                    BackGroundBrush = new System.Windows.Media.SolidColorBrush()
+                    {
+                        Color = Color.FromRgb()
+                    }
+                });
+            });
+
+            for (var i = 0; i < 10; i++)
             {
-                Console.WriteLine(reply.Status);
+                PingData ping = new PingData() { ServerRegion = region };
+                PingReply reply = pingSender.Send(address);
+                if (reply.Status == IPStatus.Success)
+                {
+                    ping.DataOut = $"Travel time {reply.RoundtripTime} MS";
+                    MS_Values.Add((int)reply.RoundtripTime);
+                }
+                else
+                {
+                    string message = "Error time out reached while trying to connect";
+                    ping.DataOut = message;
+                }
+
+                Dispatcher.Invoke(() =>
+               {
+                   pingDataCollection.Add(ping);
+               });
             }
 
-            return reply;
+            Dispatcher.Invoke(() =>
+            {
+                pingDataCollection[0].DataOut = $"Average Travel Time: {MS_Values.Average().ToString("N0")} MS";
+            });
         }
 
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ((Button)sender).IsEnabled = false;
+
+            WaitingBox.Visibility = Visibility.Collapsed;
+            pingData.Visibility = Visibility.Visible;
+            pingDataCollection.Clear();
+
+            if (((ComboBoxItem)SelectRegion.SelectedItem) != null)
+            {
+                string ip = ((ComboBoxItem)SelectRegion.SelectedItem).Tag.ToString();
+                string region = ((ComboBoxItem)SelectRegion.SelectedItem).Content.ToString();
+
+                await Task.Run(() => PingServer(ip, region));
+            }
+
+            ((Button)sender).IsEnabled = true;
+        }
     }
 }

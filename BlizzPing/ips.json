@@ -1,6 +1,7 @@
 ﻿[
   {
     "name": "Overwatch",
+    "has_realms": false,
     "ips": {
       "us": [
         "24.105.8.6",
