@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlizzPing"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="BlizzPing" Height="500" Width="296.318" ResizeMode="CanMinimize">
     <Grid>
-        
+        <ComboBox Name="AllGames" Margin="10,26,10,0" VerticalAlignment="Top" SelectionChanged="AllGames_SelectionChanged" />
+        <ComboBox Name="SelectRegion" Margin="10,74,10,0" VerticalAlignment="Top" SelectionChanged="SelectRegion_SelectionChanged"/>
+        <Label HorizontalAlignment="Center" Content="Select Game" Margin="10,0" VerticalAlignment="Top"/>
+        <Label HorizontalAlignment="Center" Content="Select Region" Margin="10,48,10,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>
