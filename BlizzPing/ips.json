@@ -15,5 +15,23 @@
         "5.42.168.6"
       ]
     }
+  },
+  {
+    "name": "Heros of the Storm",
+    "has_realms": false,
+    "ips": {
+      "us": [
+        "24.105.30.3"
+      ]
+    }
+  },
+  {
+    "name": "HearthStone",
+    "has_realms": false,
+    "ips": {
+      "us": [
+        "24.105.30.3"
+      ]
+    }
   }
 ]
