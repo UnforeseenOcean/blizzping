@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootflat.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/override.css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 body">
+				<ul class="list-group data_output" style="border-radius: 0px"></ul>
+			</div>
+		</div>
+	</div>
+	<footer class="footer center-text footer navbar-fixed-bottom" style="padding: 0px;">
+		<select name="selecter_basic" class="selecter_1 region_selector" data-selecter-options='{"label":"Select Game/Region"}'>
+					<option value="">Select Game/Region</option>
+				</select>
+	</footer>
+	<script>
+		if (typeof module === 'object') {
+			window.module = module;
+			module = undefined;
+		}
+
+	</script>
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.fs.selecter.min.js"></script>
+	<script src="js/logic.js"></script>
+	<script>
+		if (window.module) module = window.module;
+
+	</script>
+</body>
+
+</html>
